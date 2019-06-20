@@ -1,3 +1,9 @@
+import os
+
 SALTSIZE = 32
 KEYSIZE = 32
-DEFAULT_COCODIR = "~/.config/coco-jumbo"
+HASHSIZE = 32
+DEFAULT_COCODIR = os.path.expanduser("~/.config/coco-jumbo")
+DEFAULT_SECRET_FILENAME = "local.cfg"
+PK_HEADER = b"--- COCOJUMBO LOCAL SECRET: KEEP THIS FILE SAFE! ---\n"
+PK_FOOTER = b"\n--- END COCOJUMBO LOCAL SECRET ---\n"
