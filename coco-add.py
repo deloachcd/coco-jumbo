@@ -9,7 +9,8 @@ from constants import DEFAULT_COCODIR, DEFAULT_SECRET_FILENAME
 
 if __name__ == "__main__":
     if not sys.argv[1:]:
-        identifier = input("Enter identifier for new encrypted login ('q' to quit): ")
+        identifier = input("Enter identifier for new encrypted login "
+                           "(or press 'q' to quit): ")
         if "q" in identifier.lower():
             exit()
     else:
