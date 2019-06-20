@@ -13,13 +13,13 @@ capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 lowers = "abcdefghijklmnopqrstuvwxyz"
 
 
-def generate_passwd(n):
+def generate_password(n):
     ''' Randomly generate a strong password of n characters long. '''
     if n < 4:
         raise PasswordLengthTooShortException("Cannot generate a password of "
                                               "less than 4 characters.")
     seeds = list(os.urandom(n+1))
-    passwd = [
+    password = [
         symbols[seeds[1] % len(symbols)],
         digits[seeds[2] % len(digits)],
         capitals[seeds[3] % len(capitals)],
@@ -28,13 +28,13 @@ def generate_passwd(n):
     for i, seed in enumerate(seeds[5:]):
         switch = os.urandom(1)[0] % 4
         if switch == 0:
-            passwd.append(symbols[seeds[i] % len(symbols)])
+            password.append(symbols[seeds[i] % len(symbols)])
         elif switch == 1:
-            passwd.append(digits[seeds[i] % len(digits)])
+            password.append(digits[seeds[i] % len(digits)])
         elif switch == 2:
-            passwd.append(capitals[seeds[i] % len(capitals)])
+            password.append(capitals[seeds[i] % len(capitals)])
         elif switch == 3:
-            passwd.append(lowers[seeds[i] % len(lowers)])
-    random.Random(seeds[0]).shuffle(passwd)
-    passwd = "".join(passwd)
-    return passwd
+            password.append(lowers[seeds[i] % len(lowers)])
+    random.Random(seeds[0]).shuffle(password)
+    password = "".join(password)
+    return password

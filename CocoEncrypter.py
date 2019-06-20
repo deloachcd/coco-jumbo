@@ -11,6 +11,10 @@ import getpass
 from constants import KEYSIZE, SALTSIZE
 
 
+class NoFernetInstanceException(Exception):
+    pass
+
+
 @attr.s
 class CocoEncrypter:
     fernet_instance = attr.ib(default=None)
@@ -38,3 +42,19 @@ class CocoEncrypter:
         master_pass = getpass.getpass(prompt="Please enter a master password: ")
         key = cls.generate_key(salt, master_pass)
         return cls(fernet_instance=Fernet(key))
+
+    def encrypt(self, content):
+        if self.fernet_instance:
+            return self.fernet_instance.encrypt(content)
+        else:
+            raise NoFernetInstanceException(
+                "No Fernet instance has been loaded for this CocoEncrypter"
+            )
+
+    def decrypt(self, content):
+        if self.fernet_instance:
+            return self.fernet_instance.decrypt(content)
+        else:
+            raise NoFernetInstanceException(
+                "No Fernet instance has been loaded for this CocoEncrypter"
+            )

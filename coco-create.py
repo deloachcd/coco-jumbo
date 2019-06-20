@@ -1,10 +1,6 @@
 import os
-import base64
 import hashlib
 
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.backends import default_backend
 import getpass
 import colorama
 
@@ -16,6 +12,7 @@ from constants import (
 from CocoEncrypter import CocoEncrypter
 from CocoLocalSecret import CocoLocalSecret
 
+DEBUG = False  # Remove this before initial release
 
 if __name__ == "__main__":
     salt = os.urandom(SALTSIZE)
@@ -54,8 +51,10 @@ if __name__ == "__main__":
             colorama.Style.RESET_ALL,
         )
     )
-    coco_secret.load_secret_from_filesystem()
-    assert coco_secret.has_secret_at_path()
-    assert key == coco_secret.get_key()
-    assert salt == coco_secret.get_salt()
-    assert master_hash == coco_secret.get_hash()
+    if DEBUG:
+        # Make these their own unit test cases before initial release
+        coco_secret.load_secret_from_filesystem()
+        assert coco_secret.has_secret_at_path()
+        assert key == coco_secret.get_key()
+        assert salt == coco_secret.get_salt()
+        assert master_hash == coco_secret.get_hash()
