@@ -19,7 +19,7 @@ Successfully created a new vault within /home/$(whoami)/my-paranoid-vault
 | convenient | ~/my-convenient-vault  | yes      | gYxfSsYjf52023Sfsy |
 | <n/a>      | ~/my-paranoid-vault    | no       | f342okdfs52023Sfsy |
 |------------+------------------------+----------+--------------------|
-[user@shell] $ coco summary convenient
+[user@shell] $ coco vault-info convenient
 |------------+------------------------+----------+--------------------|
 | Tag        | Location               | Has key? | ID                 |
 |------------+------------------------+----------+--------------------|
@@ -33,7 +33,7 @@ Successfully created a new vault within /home/$(whoami)/my-paranoid-vault
 |------------+-----------------------+----------+--------------------|
 [user@shell] $ coco set-default convenient
 Successfully set vault at ~/my-convenient-vault as default
-[user@shell] $ coco generate-login example@gmail.com
+[user@shell] $ coco create-login example@gmail.com
 Will generate login pair for 'user@gmail.com' within ~/my-convenient-vault.
 Is this OK? (y/n) y
 Successfully generated login pair!
@@ -53,11 +53,28 @@ Aborted.
 
 ** list-vaults
 |---------------------+-----------------------+----------+--------------------|
-| Tags                | Location              | Has key? | ID                 |
+| Tags                | Location              | Has key? | Vault ID           |
 |---------------------+-----------------------+----------+--------------------|
 | convenient, default | ~/my-convenient-vault | yes      | gYxfSsYjf52023Sfsy |
 | <n/a>               | ~/my-paranoid-vault   | no       | f342okdfs52023Sfsy |
 |---------------------+-----------------------+----------+--------------------|
+
+** vault-info
+|---------------------+-----------------------+----------+--------------------|
+| Tags                | Location              | Has key? | Vault ID           |
+|---------------------+-----------------------+----------+--------------------|
+| convenient, default | ~/my-convenient-vault | yes      | gYxfSsYjf52023Sfsy |
+|---------------------+-----------------------+----------+--------------------|
+
+** vault-logins
+|----+-------------------+-----------|
+| ID | Login name        | Signature |
+|----+-------------------+-----------|
+|  0 | example@gmail.com | mfkD3j8s  |
+|----+-------------------+-----------|
+
+** login pair
+[ENCRYPTED PASSWORD] [LOGIN]
 
 ** list-vaults --no-borders
 Mode          Location           Tag         ID
@@ -65,3 +82,27 @@ convenient    ~/.my-cocovault    my-vault    gYxfSsYjf52023Sfsy
 
 ** <VAULT_LOCATION>/.cocojumbo
    [SALT][PASSPHRASE_HASH]
+
+** 'coco' commands to implement in initial release
+*** Mandatory
+   - [ ] create-vault
+     args: {vault_location} [ --tag {vault_tags} ]
+   - [ ] list-vaults
+   - [ ] vault-info
+     args: {vault_ident}
+   - [ ] vault-logins
+     args: --vault {vault_ident}
+   - [ ] create-login
+     args: [ --login ] {login_name} --vault {vault_ident} [ --tag {login_tag} ]
+   - [ ] list-logins
+     args: [ --vault ] {vault_name}
+   - [ ] get-login
+     args: [ --login ] {login_ident}
+   - [ ] copy-password
+     args: {login_ident}
+   - [ ] create-key
+     args: [ --vault ] {vault_ident}
+   - [ ] destroy-key
+     args: [ --vault ] {vault_ident}
+*** Optional
+   - set-default
