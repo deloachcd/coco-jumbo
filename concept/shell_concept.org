@@ -1,0 +1,67 @@
+* Coco-Jumbo: UX Concept
+
+#+BEGIN_SRC
+[user@shell] $ coco list-vaults
+No vaults to list!
+[user@shell] $ coco create-vault ~/my-convenient-vault --tag convenient
+Enter a passphrase for this vault:
+Would you like to generate a persistent encryption key for this vault? (y/n) y
+Successfully created a new vault within /home/$(whoami)/my-convenient-vault
+[user@shell] $ coco create-vault ~/my-paranoid-vault
+Enter a passphrase for this vault:
+Enter a tag for this vault (or press ENTER for none):
+Would you like to generate a persistent encryption key for this vault? (y/n) n
+Successfully created a new vault within /home/$(whoami)/my-paranoid-vault
+[user@shell] $ coco list-vaults
+|------------+------------------------+----------+--------------------|
+| Tag        | Location               | Has key? | ID                 |
+|------------+------------------------+----------+--------------------|
+| convenient | ~/my-convenient-vault  | yes      | gYxfSsYjf52023Sfsy |
+| <n/a>      | ~/my-paranoid-vault    | no       | f342okdfs52023Sfsy |
+|------------+------------------------+----------+--------------------|
+[user@shell] $ coco summary convenient
+|------------+------------------------+----------+--------------------|
+| Tag        | Location               | Has key? | ID                 |
+|------------+------------------------+----------+--------------------|
+| convenient | ~/my-convenient-vault  | yes      | gYxfSsYjf52023Sfsy |
+|------------+------------------------+----------+--------------------|
+[user@shell] $ coco summary ~/my-paranoid-vault
+|------------+-----------------------+----------+--------------------|
+| Tag        | Location              | Has key? | ID                 |
+|------------+-----------------------+----------+--------------------|
+| <n/a>      | ~/my-paranoid-vault   | no       | f342okdfs52023Sfsy |
+|------------+-----------------------+----------+--------------------|
+[user@shell] $ coco set-default convenient
+Successfully set vault at ~/my-convenient-vault as default
+[user@shell] $ coco generate-login example@gmail.com
+Will generate login pair for 'user@gmail.com' within ~/my-convenient-vault.
+Is this OK? (y/n) y
+Successfully generated login pair!
+[user@shell] $ coco generate-password 127.0.0.1 --vault ~/my-paranoid-vault
+Will generate login pair for 'user@gmail.com' within ~/my-paranoid-vault.
+Is this OK? (y/n) n
+Aborted.
+#+END_SRC
+
+|-----------------+----------------------+---------------------------------------------|
+| Filename        | Containing Directory | Purpose                                     |
+|-----------------+----------------------+---------------------------------------------|
+| vaults.json     | ~/.config/coco-jumbo | Persistent storage of vault location + tags |
+| coco-vault.json | <VAULT_LOCATION>     | Vault identifier ([SALT][HASH])             |
+| id_fernet       | <VAULT_LOCATION>     | Fernet private key                          |
+|-----------------+----------------------+---------------------------------------------|
+
+** list-vaults
+|---------------------+-----------------------+----------+--------------------|
+| Tags                | Location              | Has key? | ID                 |
+|---------------------+-----------------------+----------+--------------------|
+| convenient, default | ~/my-convenient-vault | yes      | gYxfSsYjf52023Sfsy |
+| <n/a>               | ~/my-paranoid-vault   | no       | f342okdfs52023Sfsy |
+|---------------------+-----------------------+----------+--------------------|
+
+** list-vaults --no-borders
+Mode          Location           Tag         ID
+convenient    ~/.my-cocovault    my-vault    gYxfSsYjf52023Sfsy 
+
+** <VAULT_LOCATION>/.cocojumbo
+   [SALT][PASSPHRASE_HASH]
