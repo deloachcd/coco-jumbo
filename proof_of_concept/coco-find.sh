@@ -1,0 +1,1 @@
+find . | grep -E '*/\.cocojumbo'
