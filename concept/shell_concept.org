@@ -43,13 +43,13 @@ Is this OK? (y/n) n
 Aborted.
 #+END_SRC
 
-|-----------------+----------------------+---------------------------------------------|
-| Filename        | Containing Directory | Purpose                                     |
-|-----------------+----------------------+---------------------------------------------|
-| vaults.json     | ~/.config/coco-jumbo | Persistent storage of vault location + tags |
-| coco-vault.json | <VAULT_LOCATION>     | Vault identifier ([SALT][HASH])             |
-| id_fernet       | <VAULT_LOCATION>     | Fernet private key                          |
-|-----------------+----------------------+---------------------------------------------|
+|-------------+----------------------+---------------------------------------------|
+| Filename    | Containing Directory | Purpose                                     |
+|-------------+----------------------+---------------------------------------------|
+| vaults.json | ~/.config/coco-jumbo | Persistent storage of vault location + tags |
+| .cocovault  | <VAULT_LOCATION>     | Vault identifier ([SALT][HASH])             |
+| id_fernet   | <VAULT_LOCATION>     | Fernet private key                          |
+|-------------+----------------------+---------------------------------------------|
 
 ** list-vaults
 |---------------------+-----------------------+----------+--------------------|
