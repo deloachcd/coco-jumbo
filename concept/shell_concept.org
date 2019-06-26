@@ -43,35 +43,30 @@ Is this OK? (y/n) n
 Aborted.
 #+END_SRC
 
-|-------------+----------------------+---------------------------------------------|
 | Filename    | Containing Directory | Purpose                                     |
 |-------------+----------------------+---------------------------------------------|
 | vaults.json | ~/.config/coco-jumbo | Persistent storage of vault location + tags |
 | .cocovault  | <VAULT_LOCATION>     | Vault identifier ([SALT][HASH])             |
 | id_fernet   | <VAULT_LOCATION>     | Fernet private key                          |
-|-------------+----------------------+---------------------------------------------|
 
 ** list-vaults
-|---------------------+-----------------------+----------+--------------------|
 | Tags                | Location              | Has key? | Vault ID           |
 |---------------------+-----------------------+----------+--------------------|
 | convenient, default | ~/my-convenient-vault | yes      | gYxfSsYjf52023Sfsy |
 | <n/a>               | ~/my-paranoid-vault   | no       | f342okdfs52023Sfsy |
-|---------------------+-----------------------+----------+--------------------|
 
 ** vault-info
-|---------------------+-----------------------+----------+--------------------|
 | Tags                | Location              | Has key? | Vault ID           |
 |---------------------+-----------------------+----------+--------------------|
 | convenient, default | ~/my-convenient-vault | yes      | gYxfSsYjf52023Sfsy |
-|---------------------+-----------------------+----------+--------------------|
 
 ** vault-logins
-|----+-------------------+-----------|
 | ID | Login name        | Signature |
 |----+-------------------+-----------|
 |  0 | example@gmail.com | mfkD3j8s  |
-|----+-------------------+-----------|
+** --borderless
+ID   Login name          Signature  
+ 0   example@gmail.com   mfkD3j8s   
 
 ** login pair
 [ENCRYPTED PASSWORD] [LOGIN]
