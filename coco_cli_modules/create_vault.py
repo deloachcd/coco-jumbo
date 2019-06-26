@@ -1,13 +1,15 @@
 import argparse
 from base64 import b64encode
 import hashlib
+import json
 import os
 
 import getpass
 
 from coco_cli_modules.share.constants import (
     SALT_SIZE,
-    VAULT_ID_SIZE
+    VAULT_ID_SIZE,
+    DEFAULT_CONFIG_DIR
 )
 from coco_cli_modules.share.encryption import (
     generate_fernet_key
@@ -50,6 +52,17 @@ def main(*args):
         if 'y' not in answer:
             print("Aborting.")
             exit()
+        else:
+            vaults_map_location = "{}/vaults.json".format(DEFAULT_CONFIG_DIR)
+            if os.path.exists(vaults_map_location):
+                with open(vaults_map_location, 'r') as mapfile:
+                    vaults_map = json.loads(mapfile.read())
+                    for i, vault in enumerate(vaults_map['vaults']):
+                        if vault['location'] == vault_location:
+                            print("Deleting {}".format(vault['id']))
+                            del vaults_map['vaults'][i]
+    else:
+        vaults_map = None
 
     # if we've reached this point, we can create the vault
 
@@ -73,6 +86,22 @@ def main(*args):
         signature_file.write(salt64)
         signature_file.write(b'\n')
         signature_file.write(hash64)
+
+    # this software keeps an internal map of vaults created (or imported)
+    # within the user's configuration directory (default: ~/.config/coco-jumbo)
+    vaults_map_location = "{}/vaults.json".format(DEFAULT_CONFIG_DIR)
+    if not vaults_map and os.path.exists(vaults_map_location):
+        with open(vaults_map_location, 'r') as existing_map:
+            vaults_map = json.loads(existing_map.read())
+    elif not vaults_map:
+        vaults_map = {'vaults': []}
+    vaults_map['vaults'].append({
+        'id': vault_id,
+        'location': vault_location,
+        'tags': [args.tag] if args.tag else []
+    })
+    with open(vaults_map_location, 'w') as updated_map:
+        updated_map.write(json.dumps(vaults_map))
 
     print("Successfully created vault with id {} in {}".format(vault_id,
                                                                vault_location))

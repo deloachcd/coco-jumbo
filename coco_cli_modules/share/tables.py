@@ -8,6 +8,7 @@ class DisplayTable:
 
     layout = attr.ib()
     collection = attr.ib()
+    stringify = attr.ib(default=str)
 
     def __str__(self):
         return "DisplayTable({})".format(", ".join(list(self.layout.keys())))
@@ -15,7 +16,7 @@ class DisplayTable:
     def render(self, borderless=False):
         column_headers = list(self.layout.keys())
         column_content = [
-            [function(item) or "n/a" for item in self.collection]
+            [self.stringify(function(item)) for item in self.collection]
             for function in self.layout.values()
         ]
         column_widths = [max(map(len, column)) for column in column_content]
@@ -27,7 +28,6 @@ class DisplayTable:
             sep = " "
         else:
             sep = "|"
-
         header_row = sep.join(
             [
                 " {}{} ".format(
@@ -36,12 +36,12 @@ class DisplayTable:
                 for i, width in enumerate(column_widths)
             ]
         )
+
         if borderless:
             row_join = "\n"
         else:
             row_join = "|\n|"
-
-        seperator_row = "+".join(["-" * (width + 2) for width in column_widths])
+            seperator_row = "+".join(["-" * (width + 2) for width in column_widths])
         content_rows = row_join.join(
             [
                 sep.join(
@@ -84,9 +84,9 @@ if __name__ == "__main__":
     jojos = [
         Jojo("jonathan", "hamon specialist and gentleman", None),
         Jojo("joseph", "master of asspulls", "hermit purple"),
-        Jojo("jotaro", "survived having a steamroller dropped on him", "star platinum"),
-        Jojo("josuke", "willing to punch a hole in his own mom", "crazy diamond"),
-        Jojo("giorno", "donut-haired prince fanatic", "gold experience")
+        Jojo("jotaro", "had a steamroller dropped on him; survived", "star platinum"),
+        Jojo("josuke", "willing to punch a hole through his own mom", "crazy diamond"),
+        Jojo("giorno", "has a dream", "gold experience")
     ]
 
     jojo_table = DisplayTable(

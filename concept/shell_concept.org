@@ -80,7 +80,7 @@ convenient    ~/.my-cocovault    my-vault    gYxfSsYjf52023Sfsy
 
 ** 'coco' commands to implement in initial release
 *** Mandatory
-   - [ ] create-vault
+   - [X] create-vault
      args: {vault_location} [ --tag {vault_tags} ]
    - [ ] list-vaults
    - [ ] vault-info
