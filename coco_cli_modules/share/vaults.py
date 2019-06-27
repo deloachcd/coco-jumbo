@@ -20,3 +20,9 @@ def get_vault_tags(map_entry):
 
 def vault_has_key(map_entry):
     return os.path.exists("{}/id_fernet".format(map_entry['location']))
+
+
+def get_vault_signature_from_filesystem(vault_location):
+    with open(vault_location, 'r') as vaultfile:
+        lines = vaultfile.readlines()
+    return lines[0].replace('\n', ''), lines[1]

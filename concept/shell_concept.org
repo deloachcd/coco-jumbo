@@ -81,13 +81,13 @@ convenient    ~/.my-cocovault    my-vault    gYxfSsYjf52023Sfsy
 ** 'coco' commands to implement in initial release
 *** Mandatory
    - [X] create-vault
-     args: {vault_location} [ --tag {vault_tags} ]
-   - [ ] list-vaults
-   - [ ] vault-info
-     args: {vault_ident}
-   - [ ] vault-logins
-     args: --vault {vault_ident}
+     args: {vault_location} [ --tag {vault_tag} ]
+   - [ ] destroy-vault
+     args: {vault_location} [ --tag {vault_tag} ]
+   - [X] list-vaults
    - [ ] create-login
+     args: [ --login ] {login_name} --vault {vault_ident} [ --tag {login_tag} ]
+   - [ ] destroy-login
      args: [ --login ] {login_name} --vault {vault_ident} [ --tag {login_tag} ]
    - [ ] list-logins
      args: [ --vault ] {vault_name}
@@ -101,3 +101,6 @@ convenient    ~/.my-cocovault    my-vault    gYxfSsYjf52023Sfsy
      args: [ --vault ] {vault_ident}
 *** Optional
    - set-default
+   - [ ] vault-info
+     args: {vault_ident}
+     

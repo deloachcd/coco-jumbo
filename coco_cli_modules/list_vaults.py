@@ -24,7 +24,9 @@ def stringify_logic(s):
 
 
 def main(*args):
-    parser = argparse.ArgumentParser(description=None)
+    parser = argparse.ArgumentParser(
+        description="List known vaults for storing encrypted login info."
+    )
     # change to display correct program name on parsing error, even though we
     # call this main procedure from another module (coco-cli.py)
     parser.prog = __file__.split("/")[-1]

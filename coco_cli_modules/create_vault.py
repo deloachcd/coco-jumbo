@@ -24,7 +24,7 @@ def not_a_directory_error():
 def main(*args):
     # args: {vault_location} [ --tag {vault_tags} ]
     parser = argparse.ArgumentParser(
-        description=None
+        description="Create a vault to store encrypted login information in"
     )
     # change to display correct program name on parsing error, even though we
     # call this main procedure from another module (coco-cli.py)
