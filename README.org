@@ -1,2 +1,2 @@
-* Coco Jumbo
-  Coco Jumbo is decentralized password management that's as easy as SSH keys.
+* lesspass-lazy-logins
+  This software is currently under construction.
