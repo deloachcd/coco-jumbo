@@ -1,10 +1,48 @@
 * lesspass-lazy-logins
 ** Usage concept: shell
 #+BEGIN_SRC bash
-[user@shell] $ lazy write-logins ./logins.csv
-Successfully set logins.ecsv as default login index for lazy login management.
-[user@shell] $ lazy set-master
-Master password: 
-Read master password into environment variable `LESSPASS_MASTER_PASSWORD`.
-[user@shell] $ lazy get-logins logins.ecsv
+[user@shell] $ lazy create-login google google-personal
+Use default rules for password generation? (y/n) y
+Enter tags for this login? (y/n) y
+Enter tags (seperated by commas): email, youtube 
+Done.
+[user@shell] $ lazy google-personal
+Master password:
+<PASSWORD_PRINTED_HERE>
+[user@shell] $ lazy create-login google google-professional
+Use default rules for password generation? (y/n) y
+Enter tags for this login? (y/n) y
+Enter tags (seperated by commas): email, work
+Done.
+[user@shell] $ lazy add-tag google
+| No. | Platform | Login               | Tags           |
+|-----+----------+---------------------+----------------|
+|   1 | google   | google-personal     | email, youtube |
+|   2 | google   | google-professional | email, work    |
+
+Enter number for tag entry [1-2, or * to tag all]: *
+Enter tags: cloud-storage
+Done.
+[user@shell] $ lazy show-logins
+| # | Platform | Login               | Tags                          | Ruleset |
+|---+----------+---------------------+-------------------------------+---------|
+| 1 | google   | google-personal     | email, youtube, cloud-storage | luds.16 |
+| 2 | google   | google-professional | email, work, cloud-storage    | luds.16 |
+[user@shell] $ lazy 2
 #+END_SRC
+
+
+** Important files
+| File       | Location            | Purpose                                                 |
+|------------+---------------------+---------------------------------------------------------|
+| logins.csv | ~/.local/share/lazy | Store site/login pairs with generation rules            |
+| mirrors    | ~/.local/share/lazy | Paths to files which mirror login (e.g. Dropbox mirror) |
+
+** Commands to implement for MVP
+   - lazy create-login [ {login_site} {login_name} ]
+   - lazy list-logins [ {login_query} ]
+   - lazy [ -s | --store-master ] {login_query}
+
+** The role of LESSPASS_MASTER_PASSWORD
+   This environment variable is used to encrypt and unencrypt the CSV file which
+   contains login information.

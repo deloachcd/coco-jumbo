@@ -1,2 +1,5 @@
 * lesspass-lazy-logins
   This software is currently under construction.
+  
+  Concept: provide an easy to use convenience layer on top of lesspass, which allows
+  logins to be accessed quickly and easily.

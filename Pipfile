@@ -1,0 +1,14 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+lesspass = "*"
+pytest = "*"
+attr = "*"
+
+[requires]
+python_version = "3.7"
