@@ -29,8 +29,8 @@ class DisplayTable:
             layout[header] = eval("lambda entry: entry[{}]".format(i))
         return cls(layout, array2d[1:])
 
-    def render(self, borderless=False, index_column=False):
-        if index_column:
+    def render(self, borderless=False, number_rows=False):
+        if number_rows:
             column_headers = ["#"] + list(self.layout.keys())
             column_content = [[str(i + 1) for i in range(len(self.collection))]] + [
                 [self.stringify(function(item)) for item in self.collection]
@@ -43,7 +43,10 @@ class DisplayTable:
                 [self.stringify(function(item)) or item[i] for item in self.collection]
                 for i, function in enumerate(self.layout.values())
             ]
-        column_widths = [max(map(len, column)) for column in column_content]
+        if self.collection != []:
+            column_widths = [max(map(len, column)) for column in column_content]
+        else:
+            column_widths = [len(header) for header in column_headers]
         for i, width in enumerate(column_widths):
             if len(column_headers[i]) > width:
                 column_widths[i] = len(column_headers[i])
@@ -63,9 +66,17 @@ class DisplayTable:
 
         if borderless:
             row_join = "\n"
+            if self.collection == []:
+                return "{}\n{}".format(header_row, " No entries in table!")
         else:
             row_join = "|\n|"
             seperator_row = "+".join(["-" * (width + 2) for width in column_widths])
+            if self.collection == []:
+                return "|{}|\n|{}|\n| No entries in table!{}|".format(
+                    header_row,
+                    seperator_row,
+                    " " * (len(header_row[: len(header_row)]) - 21),
+                )
         content_rows = row_join.join(
             [
                 sep.join(
@@ -137,6 +148,6 @@ if __name__ == "__main__":
     print()
     print(jojo_table.render(borderless=True))
     print()
-    print(jojo_a2d_table.render(index_column=True))
+    print(jojo_a2d_table.render(number_rows=True))
     print()
-    print(jojo_a2d_table.render(borderless=True, index_column=True))
+    print(jojo_a2d_table.render(borderless=True, number_rows=True))

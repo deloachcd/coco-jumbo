@@ -3,3 +3,13 @@
   
   Concept: provide an easy to use convenience layer on top of lesspass, which allows
   logins to be accessed quickly and easily.
+
+** Tutorial by example
+#+BEGIN_SRC
+[user@your_favorite_shell] $ lazy add-login google example --tags email, youtube, drive
+Does this platform have specific password rules? (y/n) n
+Successfully created login 'example' for platform 'google'.
+[user@your_favorite_shell] $ lazy --copy youtube
+Master password: 
+Copied password to clipboard.
+#+END_SRC
