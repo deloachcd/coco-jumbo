@@ -57,6 +57,23 @@ def main(*args):
 
     platform = input("Platform: ") if not args.platform else args.platform
     login = input("Login: ") if not args.login else args.login
+
+    for i, entry in enumerate(table_rows):
+        if entry[0] == platform and entry[1] == login:
+            overwrite = user_input_answer(
+                "A login entry '{}' for platform '{}' already exists. Overwrite it? "
+                "[y/n] ".format(
+                    login, platform
+                )
+            )
+            if overwrite:
+                del table_rows[i]
+                break
+            else:
+                print("Aborting.")
+                exit()
+
+
     tags = ", ".join(args.tags) if args.tags else ""
     password_generation_counter = 1
 
@@ -74,8 +91,8 @@ def main(*args):
 
     if not args.no_confirm:
         confirm = user_input_answer(
-            "Would you like to ensure this login's password works,\n"
-            "before adding it? [y/n] "
+            "Would you like to ensure this login's password works, before adding it? "
+            "[y/n] "
         )
         if confirm:
             works = False
@@ -91,4 +108,8 @@ def main(*args):
 
     table_rows.append([platform, login, tags, ruleset])
     write_login_table(table_rows)
-    print("Successfully wrote entry to login table.")
+    print(
+        "Successfully created login '{}' for platform '{}'".format(
+            login, platform
+        )
+    )
