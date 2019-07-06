@@ -4,41 +4,34 @@ import sys
 
 from getpass import getpass
 
+from help_messages import (
+    help_messsage,
+    help_queries
+)
 
 modules_location = 'lazy_modules'
-possible_modules = [
-    'add-login',
-    'remove-login',
-    'show-logins',
-    'edit-platform',
-    'edit-username',
-    'edit-tags',
-    'add-tag',
-    'remove-tag',
-    'get-login'
-]
-help_messsage = '''usage: {} [-hls] ( lazy_module [module_args] ) | lazy_query
-
-The lazy man's command line login manager for LessPass.
-
-positional arguments (module execution):
-  lazy_module  module to run (--list-modules to see all)
-  module_args  arguments to pass to the selected module (if necessary)
-
-positional arguments (login retrieval query):
-  lazy_query   query to access and retrieve login info with
-
-optional arguments:
-  -h, --help           show this help message and exit
-  -l, --list-modules   display all possible options for coco-module
-  -s, --store-master   store master password in environment variable
-'''.format(
-      __file__
-  )
+alias_modules = {
+    # NOTE: alias for 'lazy get-login' is just 'lazy'
+    'al': 'add-login',
+    'at': 'add-tag',
+    'rl': 'remove-login',
+    'rt': 'remove-tag',
+    'ep': 'edit-platform',
+    'eu': 'edit-username',
+    'et': 'edit-tags',
+    's': 'show-logins',
+}
+module_aliases = alias_modules.keys()
+possible_modules = alias_modules.values()
 
 
 def main(args=sys.argv):
-    if len(args) < 2 or args[1] == '-h' or args[1] == '--help':
+    module_to_execute = None
+
+    # help message argument switching
+    if len(args) < 2:
+        module_to_execute = 'get-login'
+    elif args[1] == '-h' or args[1] == '--help':
         print(help_messsage)
         exit()
     elif args[1] == '-l' or args[1] == '--list-modules':
@@ -46,20 +39,29 @@ def main(args=sys.argv):
         for module in possible_modules:
             print("    {}".format(module))
         exit()
-    elif args[1] == '-s' or args[1] == '--store-master':
-        os.environ['LESSPASS_MASTER_PASSWORD'] = getpass("Master password: ")
-
-    user_module = args[1]
-    if user_module not in possible_modules:
-        print("ERROR: '{}' is not a valid option for lazy-module".format(
-            user_module
-        ))
-        print("Run '{} --list-modules' to see valid options".format(__file__))
+    elif args[1] == '--help-queries':
+        print(help_queries)
         exit()
 
+    if 'LESSPASS_MASTER_PASSWORD' not in os.environ.keys():
+        os.environ['LESSPASS_MASTER_PASSWORD'] = getpass("Master password: ")
+
+    if len(args) > 1:
+        user_module = args[1]
+        if user_module in module_aliases:
+            module_to_execute = alias_modules[user_module]
+        elif user_module in possible_modules:
+            module_to_execute = user_module
+        else:
+            print("ERROR: '{}' is not a valid option for lazy-module".format(
+                user_module
+            ))
+            print("Run '{} --list-modules' to see valid options".format(__file__))
+            exit()
+
     # by this point, we know the user got the syntax right
-    user_module = user_module.replace('-', '_')
-    mod = import_module('{}.{}'.format(modules_location, user_module))
+    module_to_execute = module_to_execute.replace('-', '_')
+    mod = import_module('{}.{}'.format(modules_location, module_to_execute))
 
     mod.main(*args[2:])
 

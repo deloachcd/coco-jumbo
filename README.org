@@ -6,7 +6,7 @@
 
 ** Tutorial by example
 #+BEGIN_SRC
-[user@your_favorite_shell] $ lazy add-login google example --tags email, youtube, drive
+[user@your_favorite_shell] $ lazy add-login google example --tags email youtube drive
 Does this platform have specific password rules? (y/n) n
 Successfully created login 'example' for platform 'google'.
 [user@your_favorite_shell] $ lazy --copy youtube

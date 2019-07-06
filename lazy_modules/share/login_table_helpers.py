@@ -29,7 +29,7 @@ def _get_login_table_csv(mode):
     return open(LOGIN_TABLE_PATH, mode, newline="")
 
 
-def read_login_table():
+def read_login_table(tags_as_list=False):
     # ensure the file exists
     if not os.path.isdir(LAZY_USER_DATA_DIR):
         os.makedirs(LAZY_USER_DATA_DIR)
@@ -37,7 +37,8 @@ def read_login_table():
         pathlib.Path(LOGIN_TABLE_PATH).touch()
     # now we can safely open it
     with _get_login_table_csv("r") as csvfile:
-        return list(csv.reader(csvfile, delimiter=",", quotechar='"'))
+        table_rows = list(csv.reader(csvfile, delimiter=",", quotechar='"'))
+        return table_rows
 
 
 def write_login_table(table):

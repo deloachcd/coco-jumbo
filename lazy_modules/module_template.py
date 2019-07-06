@@ -12,6 +12,8 @@ def main(*args):
     parser = argparse.ArgumentParser(
         description=None
     )
+    parser.add_argument('login_query', metavar='login_query', nargs='?',
+                        help='run "lazy --help-queries" for help with these')
     # change to display correct program name on parsing error, even though we
     # call this main procedure from another module (coco-cli.py)
     parser.prog = __file__.split("/")[-1]

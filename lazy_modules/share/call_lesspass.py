@@ -9,27 +9,36 @@ class RulesetExpansionError(Exception):
     pass
 
 
+def validate_ruleset(ruleset):
+    if re.match(ruleset_validity_rgx, ruleset):
+        pass
+    else:
+        raise RulesetExpansionError(
+            "invalid password generation ruleset {}".format(
+                ruleset
+            )
+        )
+
+
 def call_lesspass(site, login, ruleset):
     def expand_ruleset(rulestr):
-        if re.match(ruleset_validity_rgx, rulestr):
-            sections = rulestr.split('.')
-            if len(sections) == 3:
-                # specific counter value included
-                char_inclusion_args, length, counter = sections
-                if counter == "":
-                    # account for accepting an extra dot
-                    counter = '1'
-            elif len(sections) == 2:
-                # default to counter = 1
-                char_inclusion_args, length = sections
+        validate_ruleset(rulestr)
+        sections = rulestr.split('.')
+        if len(sections) == 3:
+            # specific counter value included
+            char_inclusion_args, length, counter = sections
+            if counter == "":
+                # account for accepting an extra dot
                 counter = '1'
-            return (
-                '-{}'.format(char_inclusion_args),
-                '-L', length,
-                '-C', counter
-            )
-        else:
-            raise RulesetExpansionError("invalid password generation ruleset")
+        elif len(sections) == 2:
+            # default to counter = 1
+            char_inclusion_args, length = sections
+            counter = '1'
+        return (
+            '-{}'.format(char_inclusion_args),
+            '-L', length,
+            '-C', counter
+        )
 
     LESSPASS_ARGS = [
         site,
