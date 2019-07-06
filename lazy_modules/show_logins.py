@@ -2,7 +2,6 @@ import argparse
 
 from lazy_modules.share.login_table_helpers import (
     read_login_table,
-    write_login_table,
     query_table,
     render_table
 )

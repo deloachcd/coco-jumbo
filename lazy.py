@@ -7,8 +7,15 @@ from getpass import getpass
 
 modules_location = 'lazy_modules'
 possible_modules = [
-    'module_template',
-    'test'
+    'add-login',
+    'remove-login',
+    'show-logins',
+    'edit-platform',
+    'edit-username',
+    'edit-tags',
+    'add-tag',
+    'remove-tag',
+    'get-login'
 ]
 help_messsage = '''usage: {} [-hls] ( lazy_module [module_args] ) | lazy_query
 
