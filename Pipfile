@@ -8,7 +8,6 @@ verify_ssl = true
 [packages]
 lesspass = "*"
 pytest = "*"
-attr = "*"
 
 [requires]
 python_version = "3.7"
