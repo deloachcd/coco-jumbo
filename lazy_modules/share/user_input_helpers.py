@@ -14,18 +14,17 @@ def exit_if_user_says_no(question):
 
 def _get_user_selection_from_queried_rows(
         queried_rows,
-        action_verb,
         multiple_select_allowed=False
 ):
     from lazy_modules.share.login_table_helpers import (
-        render_table,
+        render_table
     )
 
     if len(queried_rows) > 1:
         print(render_table(queried_rows, number_rows=True))
         user_selection = input(
-            "Which entry would you like to {}? [1-{}{}] ".format(
-                action_verb, len(queried_rows),
+            "Which entry would you like to select? [1-{}{}] ".format(
+                len(queried_rows),
                 ", or '*' for all" if multiple_select_allowed else ""
             )
         )
@@ -54,21 +53,29 @@ def execute_function_on_user_selected_row(
         print("Invalid selection specified. Exiting.")
         exit()
 
+# RQMW:
+# 1. read login table from filesystem
+# 2. query table from user input
+# 3. modify table from query
+# 4. write modified table to filesystem
+
 
 def user_modify_table(
         table,
         queried_rows,
         action_verb,
-        single_modify_function,
-        multiple_modify_function,
+        single_modify_function,    # actually mutates
+        multiple_modify_function,  # returns modified copy
         prompt_for_confirmation=False
 ):
     from lazy_modules.share.login_table_helpers import (
-        query_table,
         get_queried_row_index
     )
 
-    user_selection = _get_user_selection_from_queried_rows(queried_rows)
+    user_selection = _get_user_selection_from_queried_rows(
+        queried_rows,
+        multiple_select_allowed=True
+    )
 
     if user_selection == '*':
         # modify all rows matched by the query
@@ -77,7 +84,12 @@ def user_modify_table(
                 "Do you really want to {} all {} records?".format(
                     action_verb, len(queried_rows))
             )
-        multiple_modify_function(table)
+        table = multiple_modify_function(table)
+        print(
+            "Modified {} entries in login table.".format(
+                len(queried_rows)
+            )
+        )
     elif (
             user_selection.isnumeric() and
             int(user_selection) >= 1 and
@@ -92,6 +104,13 @@ def user_modify_table(
                 )
             )
         single_modify_function(table, get_queried_row_index(queried_row))
+        print(
+            "Modified a single entry in login table.".format(
+                len(queried_rows)
+            )
+        )
     else:
         print("Invalid entry specified for modification, exiting.")
         exit()
+
+    return table

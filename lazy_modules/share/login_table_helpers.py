@@ -55,10 +55,13 @@ def query_in_row(query, row):
 
 
 def query_table(query_tokens, search_table):
-    """This function takes a set of query tokens, and returns a list of
+    """
+    This function takes a set of query tokens, and returns a list of
     all rows which contain every token (token_1 OR token_2 OR ... token_n)
 
-    Time complexity: O(q*n), q = num queries, n = records in login table"""
+    Time complexity: O(q*n) 'in' operations, q = num queries,
+    n = records in login table
+    """
 
     def query_reduce(query, table):
         queried_rows = []
