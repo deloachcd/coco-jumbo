@@ -1,3 +1,5 @@
+[[./image/lazy.png]]
+
 * lesspass-lazy-logins
   This software is currently under construction.
   
@@ -11,5 +13,5 @@ Does this platform have specific password rules? (y/n) n
 Successfully created login 'example' for platform 'google'.
 [user@your_favorite_shell] $ lazy --copy youtube
 Master password: 
-Copied password to clipboard.
+Copied to clipboard
 #+END_SRC

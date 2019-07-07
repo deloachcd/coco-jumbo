@@ -9,9 +9,12 @@ from lazy_modules.share.login_table_helpers import (
 
 def main(*args):
     parser = argparse.ArgumentParser(
-        description=None
+        description='Remove an entry from the login table',
+        prog=__file__.split("/")[-1]
     )
-    # change to display correct program name on parsing error, even though we
-    # call this main procedure from another module (coco-cli.py)
-    parser.prog = __file__.split("/")[-1]
+    parser.add_argument('login_query', metavar='login_query', nargs='*',
+                        help='run "lazy --help-queries" for help with these')
     args = parser.parse_args(args)
+    table_rows = read_login_table()
+    query_rows = query_table(args.login_query, table_rows)
+    print(render_table(query_rows, number_rows=True))

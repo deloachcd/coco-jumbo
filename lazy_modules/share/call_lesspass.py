@@ -20,7 +20,7 @@ def validate_ruleset(ruleset):
         )
 
 
-def call_lesspass(site, login, ruleset):
+def call_lesspass(site, login, ruleset, copy=False):
     def expand_ruleset(rulestr):
         validate_ruleset(rulestr)
         sections = rulestr.split('.')
@@ -45,6 +45,8 @@ def call_lesspass(site, login, ruleset):
         login,
         *expand_ruleset(ruleset)
     ]
+    if copy:
+        LESSPASS_ARGS.append('-c')
     core.main(LESSPASS_ARGS)
 
 

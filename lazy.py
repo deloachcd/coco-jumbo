@@ -19,7 +19,7 @@ alias_modules = {
     'ep': 'edit-platform',
     'eu': 'edit-username',
     'et': 'edit-tags',
-    's': 'show-logins',
+    'sl': 'show-logins',
 }
 module_aliases = alias_modules.keys()
 possible_modules = alias_modules.values()
@@ -53,11 +53,7 @@ def main(args=sys.argv):
         elif user_module in possible_modules:
             module_to_execute = user_module
         else:
-            print("ERROR: '{}' is not a valid option for lazy-module".format(
-                user_module
-            ))
-            print("Run '{} --list-modules' to see valid options".format(__file__))
-            exit()
+            module_to_execute = 'get-login'
 
     # by this point, we know the user got the syntax right
     module_to_execute = module_to_execute.replace('-', '_')

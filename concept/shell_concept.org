@@ -38,19 +38,17 @@ Done.
 | logins.csv | ~/.local/share/lazy | Store site/login pairs with generation rules            |
 
 ** Commands to implement for MVP
-   - lazy add-login [ {login_site} {login_name} [ --tags|-t {tag1} {tag2} ... {tagN} ] ]
-   - lazy remove-login [ {login_query} ]
-   - lazy show-logins [ {login_query} ]
-   - lazy edit-platform [ {login_query} ]
-   - lazy edit-username [ {login_query} ]
-   - lazy edit-tags [ {login_query} ]
-   - lazy add-tag [ {login_query} ]
-   - lazy remove-tag [ {login_query} ]
-   - lazy get-login [ -s | --store-master ] {login_query}
+   - [X] lazy add-login 
+   - [ ] lazy remove-login [ {login_query} ]
+   - [ ] lazy show-logins [ {login_query} ]
+   - [ ] lazy edit-tags [ {login_query} ]
+   - [ ] lazy add-tag [ {login_query} ]
+   - [ ] lazy remove-tag [ {login_query} ]
+   - [ ] lazy get-login [ -s | --store-master ] {login_query}
 ** Shorthands
-   - lazy [ -s | --store-master ] {login_query} (get-login)
-   - lazy s (show-logins)
-   - lazy ep|eu|et (edit-platform|edit-username|edit-tags)
+   - lazy (get-login)
+   - lazy sl (show-logins)
+   - lazy et (edit-tags)
    - lazy al|at (add-login|add-tag)
    - lazy rl|rt (remove-login|remove-tag)
 

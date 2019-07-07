@@ -5,7 +5,8 @@ from lazy_modules.share.call_lesspass import validate_ruleset, call_lesspass
 
 
 def user_input_answer(question):
-    return "n" not in input(question)
+    response = input(question)
+    return response == "" or "y" in response
 
 
 def ruleset_from_user_answers(counter):
@@ -16,11 +17,13 @@ def ruleset_from_user_answers(counter):
     length = input("Enter a length for this password (default: 16) ")
     length = 16 if length == "" else int(length)
     return (
-        ("l" if lowercase else "") +
-        ("u" if uppercase else "") +
-        ("d" if digits else "") +
-        ("s" if symbols else "") +
-        "." + str(length) + (("." + str(counter)) if counter != 1 else "")
+        ("l" if lowercase else "")
+        + ("u" if uppercase else "")
+        + ("d" if digits else "")
+        + ("s" if symbols else "")
+        + "."
+        + str(length)
+        + (("." + str(counter)) if counter != 1 else "")
     )
 
 
@@ -62,9 +65,7 @@ def main(*args):
         if entry[0] == platform and entry[1] == login:
             overwrite = user_input_answer(
                 "A login entry '{}' for platform '{}' already exists. Overwrite it? "
-                "[y/n] ".format(
-                    login, platform
-                )
+                "[y/n] ".format(login, platform)
             )
             if overwrite:
                 del table_rows[i]
@@ -73,18 +74,16 @@ def main(*args):
                 print("Aborting.")
                 exit()
 
-
     tags = ", ".join(args.tags) if args.tags else ""
-    password_generation_counter = 1
 
     if not args.ruleset:
         annoying_rules = user_input_answer(
             "Does this platform have specific password rules? (ex. no symbols) [y/n] "
         )
         if annoying_rules:
-            ruleset = ruleset_from_user_answers(password_generation_counter)
+            ruleset = ruleset_from_user_answers(1)
         else:
-            ruleset = 'luds.16'
+            ruleset = "luds.16"
     else:
         validate_ruleset(args.ruleset)
         ruleset = args.ruleset
@@ -95,21 +94,15 @@ def main(*args):
             "[y/n] "
         )
         if confirm:
-            works = False
+            works, password_generation_counter = False, 1
             while not works:
-                print("Try this password: ", end="")
+                print("Try this password: ")
                 call_lesspass(platform, login, ruleset)
-                works = user_input_answer(
-                    "Did this password work? [y/n] "
-                )
+                works = user_input_answer("Did this password work? [y/n] ")
                 if not works:
                     password_generation_counter += 1
                     ruleset = ruleset_from_user_answers(password_generation_counter)
 
     table_rows.append([platform, login, tags, ruleset])
     write_login_table(table_rows)
-    print(
-        "Successfully created login '{}' for platform '{}'".format(
-            login, platform
-        )
-    )
+    print("Successfully created login '{}' for platform '{}'".format(login, platform))

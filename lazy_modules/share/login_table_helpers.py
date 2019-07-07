@@ -73,6 +73,8 @@ def query_table(query_tokens, table):
             queried_rows = query_reduce(token, queried_rows)
     elif isinstance(query_tokens, str):
         queried_rows = query_reduce(query_tokens, queried_rows)
+    elif query_tokens is None:
+        pass
     else:
         raise TypeError(
             "Invalid type '{}' for 'query_tokens' parameter".format(
@@ -87,9 +89,13 @@ def render_table(table, **kwargs):
     return renderable.render(**kwargs)
 
 
-def get_row_content(row, field_name):
+def get_queried_row_index(queried_row):
+    return queried_row[-1]
+
+
+def get_row_content(table, row_index, field_name):
     if field_name in FIELD_NAMES:
-        return row[FIELD_NAMES.index(field_name)]
+        return table[row_index][FIELD_NAMES.index(field_name)]
     else:
         raise InvalidFieldNameException(
             "'{}' is not a valid field name.".format(field_name)
