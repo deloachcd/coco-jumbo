@@ -3,26 +3,24 @@ import argparse
 from lazy_modules.share.login_table_helpers import (
     read_login_table,
     write_login_table,
-    query_table,
-    query_in_row,
-    get_queried_row_index,
-    render_table
 )
-from lazy_modules.share.user_input_helpers import user_input_answer
+from lazy_modules.share.user_input_helpers import user_query_and_modify_table
 
 
-def delete_single_entry(table, index):
+module_action_verb = 'delete'
+
+
+def modify_single_entry(table, index):
     del table[index]
 
 
-def delete_multiple_entries(table, login_query):
-    modified_table = list(
+def modify_multiple_entries(table, login_query):
+    table = list(
         filter(
             lambda row: not all([query in row for query in login_query]),
             table
         )
     )
-    return modified_table
 
 
 def main(*args):
@@ -33,44 +31,14 @@ def main(*args):
     parser.add_argument('login_query', nargs='*',
                         help='run "lazy --help-queries" for help with these')
     args = parser.parse_args(args)
+
     table_rows = read_login_table()
-    query_rows = query_table(args.login_query, table_rows)
-
-    if len(query_rows) > 1:
-        print(render_table(query_rows, number_rows=True))
-        user_deletion_answer = input(
-            "Which entry would you like to remove? [1-{}, or '*' for all] ".format(
-                len(query_rows)
-            )
-        )
-    else:
-        user_deletion_answer = '1'
-
-    if user_deletion_answer == '*':
-        # delete all rows matched by the query
-        if user_input_answer(
-                "Do you really want to delete all {} records? [y/n] ".format(
-                    len(query_rows))
-        ):
-            table_rows = filter(
-                lambda row: not all([query in row for query in args.login_query]),
-                table_rows
-            )
-            table_rows = list(table_rows)
-        else:
-            print("Exiting.")
-            exit()
-    elif (
-            user_deletion_answer.isnumeric() and
-            int(user_deletion_answer) >= 1 and
-            int(user_deletion_answer) <= len(query_rows)
-    ):
-        deletion_index = int(user_deletion_answer)-1
-        queried_row = query_rows[deletion_index]
-        del table_rows[get_queried_row_index(queried_row)]
-    else:
-        print("Invalid entry specified for deletion, exiting.")
-        exit()
-
+    user_query_and_modify_table(
+        table_rows,
+        args.login_query,
+        module_action_verb,
+        modify_single_entry,
+        modify_multiple_entries,
+        prompt_for_confirmation=True
+    )
     write_login_table(table_rows)
-    print("Done.")
