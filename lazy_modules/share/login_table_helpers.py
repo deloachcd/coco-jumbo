@@ -50,7 +50,11 @@ def write_login_table(table):
             writer.writerow(row)
 
 
-def query_table(query_tokens, table):
+def query_in_row(query, row):
+    return query in "|".join(row[:3])
+
+
+def query_table(query_tokens, search_table):
     """This function takes a set of query tokens, and returns a list of
     all rows which contain every token (token_1 OR token_2 OR ... token_n)
 
@@ -59,14 +63,14 @@ def query_table(query_tokens, table):
     def query_reduce(query, table):
         queried_rows = []
         for i, row in enumerate(table):
-            if query in "|".join(row[:3]):
-                queried_row = row
-                queried_row.append(i)
-                queried_rows.append(queried_row)
+            if query_in_row(query, row):
+                queried_rows.append(row + [i])
         return queried_rows
 
-    queried_rows = table
+    queried_rows = search_table
     if isinstance(query_tokens, list):
+        if query_tokens == []:
+            queried_rows = [row + [i] for i, row in enumerate(search_table)]
         for token in query_tokens:
             # reduce table iteratively by running each query after
             # the first on results of last query
@@ -100,7 +104,3 @@ def get_row_content(table, row_index, field_name):
         raise InvalidFieldNameException(
             "'{}' is not a valid field name.".format(field_name)
         )
-
-
-def get_index_in_table(queried_row):
-    return queried_row[-1] + 1
