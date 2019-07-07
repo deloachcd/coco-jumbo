@@ -35,7 +35,7 @@ def main(args=sys.argv):
         print(help_messsage)
         exit()
     elif args[1] == '-l' or args[1] == '--list-modules':
-        print("Valid options for coco-module include:")
+        print("Valid options for lazy-module include:")
         for module in possible_modules:
             print("    {}".format(module))
         exit()
