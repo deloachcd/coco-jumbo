@@ -1,4 +1,4 @@
-[[./image/lazy.png]]
+[[./image/lazy_notext.png]]
 
 * lesspass-lazy-logins
   This software is currently under construction.
