@@ -42,8 +42,8 @@ Done.
    - [X] lazy remove-login [ {login_query} ]
    - [X] lazy show-logins [ {login_query} ]
    - [X] lazy edit-tags [ {login_query} ]
-   - [ ] lazy add-tag [ {login_query} ]
-   - [ ] lazy remove-tag [ {login_query} ]
+   - [X] lazy add-tag [ {login_query} ]
+   - [X] lazy remove-tag [ {login_query} ]
    - [X] lazy get-login [ -s | --store-master ] {login_query}
 ** Shorthands
    - lazy (get-login)

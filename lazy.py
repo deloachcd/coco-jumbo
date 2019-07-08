@@ -48,18 +48,20 @@ def main(args=sys.argv):
 
     if len(args) > 1:
         user_module = args[1]
+        arg_index = 2
         if user_module in module_aliases:
             module_to_execute = alias_modules[user_module]
         elif user_module in possible_modules:
             module_to_execute = user_module
         else:
             module_to_execute = 'get-login'
+            arg_index = 1
 
     # by this point, we know the user got the syntax right
     module_to_execute = module_to_execute.replace('-', '_')
     mod = import_module('{}.{}'.format(modules_location, module_to_execute))
 
-    mod.main(*args[2:])
+    mod.main(*args[arg_index:])
 
 
 if __name__ == "__main__":
