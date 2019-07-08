@@ -1,0 +1,24 @@
+#!/bin/bash
+
+no_python_error() {
+    echo "$NO_PYTHON_ERROR"
+    exit -1
+}
+
+
+# Python requirement: 3.7+
+NO_PYTHON_ERROR='Error: Python 3.7+ is required to run this software'
+PYTHON3_EXECUTABLE="$(which python3 2>&1)"
+if [ $? -ne 0 ]; then
+    no_python_error
+fi
+PYTHON3_VERSION="$($PYTHON3_EXECUTABLE --version)"
+PYTHON3_MAJOR_VERSION="$(printf "$PYTHON3_VERSION" | awk -F '.' '{ print $2 }')"
+if [ $PYTHON3_MAJOR_VERSION -lt 7 ]; then
+    no_python_error
+fi
+
+"$PYTHON3_EXECUTABLE" << EOF
+Makefile_content = '''
+'''
+EOF

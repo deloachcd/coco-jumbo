@@ -51,8 +51,6 @@ Done.
    - lazy et (edit-tags)
    - lazy al|at (add-login|add-tag)
    - lazy rl|rt (remove-login|remove-tag)
-
-
 ** The role of LESSPASS_MASTER_PASSWORD
    This environment variable is used to encrypt and unencrypt the CSV file which
    contains login information.
